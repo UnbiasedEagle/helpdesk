@@ -1,5 +1,5 @@
 import { Link, Outlet, useNavigate } from "react-router";
-import { signOut, useSession } from "../lib/auth-client";
+import { isAdmin, signOut, useSession } from "../lib/auth-client";
 
 export function AppLayout() {
   const { data: session } = useSession();
@@ -18,7 +18,7 @@ export function AppLayout() {
             <Link to="/" className="font-semibold text-slate-900">
               Helpdesk
             </Link>
-            {session?.user.role === "admin" && (
+            {isAdmin(session?.user.role) && (
               <Link to="/admin/users" className="text-sm text-slate-600 hover:text-slate-900">
                 Users
               </Link>

@@ -3,7 +3,8 @@ import { auth } from "../src/lib/auth.js";
 import { prisma } from "../src/prisma.js";
 
 async function main() {
-  const email = process.env.SEED_ADMIN_EMAIL;
+  // Better Auth stores emails lowercased, so match that for the existence check.
+  const email = process.env.SEED_ADMIN_EMAIL?.trim().toLowerCase();
   const password = process.env.SEED_ADMIN_PASSWORD;
   const name = process.env.SEED_ADMIN_NAME ?? "Admin";
 

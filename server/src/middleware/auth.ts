@@ -29,7 +29,9 @@ export async function requireAdmin(req: Request, res: Response, next: NextFuncti
       next(err);
       return;
     }
-    if (req.user?.role !== "admin") {
+    // Better Auth stores multiple roles as a comma-separated string.
+    const roles = (req.user?.role ?? "").split(",").map((r) => r.trim());
+    if (!roles.includes("admin")) {
       res.status(403).json({ error: "Forbidden" });
       return;
     }

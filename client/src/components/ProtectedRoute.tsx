@@ -1,5 +1,5 @@
 import { Navigate, Outlet, useLocation } from "react-router";
-import { useSession } from "../lib/auth-client";
+import { isAdmin, useSession } from "../lib/auth-client";
 
 function FullPageMessage({ text }: { text: string }) {
   return (
@@ -19,7 +19,7 @@ export function ProtectedRoute({ adminOnly = false }: { adminOnly?: boolean }) {
     return <Navigate to="/login" replace state={{ from: location.pathname }} />;
   }
 
-  if (adminOnly && session.user.role !== "admin") {
+  if (adminOnly && !isAdmin(session.user.role)) {
     return <Navigate to="/" replace />;
   }
 
