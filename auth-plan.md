@@ -6,7 +6,7 @@
 - [x] Remove old `User` model/table and `Role` enum, generate Better Auth schema, run Prisma migration
 - [x] Mount `/api/auth/*splat` handler in Express (before `express.json()`)
 - [x] Add `requireAuth` / `requireAdmin` middleware and `GET /api/me`
-- [ ] Seed script for initial admin account
+- [x] Seed script for initial admin account
 - [ ] Client: auth client, login page, protected/admin routes, logout
 - [ ] Client: admin page to create, list, and deactivate agents
 - [ ] Verify: login/logout, sign-up blocked, agent gets 403 on admin routes, banned agent's session revoked immediately
