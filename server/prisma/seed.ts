@@ -1,5 +1,6 @@
 import "dotenv/config";
 import { auth } from "../src/lib/auth.js";
+import { Role } from "../src/lib/permissions.js";
 import { prisma } from "../src/prisma.js";
 
 async function main() {
@@ -20,7 +21,7 @@ async function main() {
 
   // Goes through Better Auth so the password is hashed and the credential account is created.
   await auth.api.createUser({
-    body: { email, password, name, role: "admin" },
+    body: { email, password, name, role: Role.Admin },
   });
   console.log(`Created admin ${email}.`);
 }

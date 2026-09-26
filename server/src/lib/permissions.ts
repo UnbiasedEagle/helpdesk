@@ -1,6 +1,11 @@
 import { createAccessControl } from "better-auth/plugins/access";
 import { defaultStatements } from "better-auth/plugins/admin/access";
 
+export enum Role {
+  Admin = "admin",
+  Agent = "agent",
+}
+
 // Keep in sync with client/src/lib/permissions.ts
 export const statement = {
   ...defaultStatements,
@@ -20,4 +25,4 @@ export const agentRole = ac.newRole({
   session: [],
 });
 
-export const roles = { admin: adminRole, agent: agentRole };
+export const roles = { [Role.Admin]: adminRole, [Role.Agent]: agentRole };

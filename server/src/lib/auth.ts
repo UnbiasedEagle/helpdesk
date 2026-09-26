@@ -3,7 +3,7 @@ import { APIError, createAuthMiddleware } from "better-auth/api";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { admin } from "better-auth/plugins/admin";
 import { prisma } from "../prisma.js";
-import { ac, roles } from "./permissions.js";
+import { ac, Role, roles } from "./permissions.js";
 
 const clientOrigin = process.env.CLIENT_ORIGIN ?? "http://localhost:5173";
 const MIN_PASSWORD_LENGTH = 8;
@@ -44,8 +44,8 @@ export const auth = betterAuth({
     admin({
       ac,
       roles,
-      defaultRole: "agent",
-      adminRoles: ["admin"],
+      defaultRole: Role.Agent,
+      adminRoles: [Role.Admin],
       bannedUserMessage: "Your account has been deactivated. Contact an administrator.",
     }),
   ],

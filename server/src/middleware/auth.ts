@@ -1,6 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 import { fromNodeHeaders } from "better-auth/node";
 import { auth } from "../lib/auth.js";
+import { Role } from "../lib/permissions.js";
 
 export async function requireAuth(req: Request, res: Response, next: NextFunction) {
   let session;
@@ -31,7 +32,7 @@ export async function requireAdmin(req: Request, res: Response, next: NextFuncti
     }
     // Better Auth stores multiple roles as a comma-separated string.
     const roles = (req.user?.role ?? "").split(",").map((r) => r.trim());
-    if (!roles.includes("admin")) {
+    if (!roles.includes(Role.Admin)) {
       res.status(403).json({ error: "Forbidden" });
       return;
     }
