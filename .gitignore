@@ -1,0 +1,4 @@
+# AI agent tooling (local only)
+.agents/
+.claude/
+skills-lock.json
