@@ -13,6 +13,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { authClient, useSession } from "../lib/auth-client";
+import { Role } from "../lib/permissions";
 
 type ManagedUser = {
   id: string;
@@ -40,7 +41,7 @@ function CreateAgentForm({ onCreated }: { onCreated: () => void }) {
     e.preventDefault();
     setError(null);
     setSubmitting(true);
-    const { error } = await authClient.admin.createUser({ name, email, password, role: "agent" });
+    const { error } = await authClient.admin.createUser({ name, email, password, role: Role.Agent });
     setSubmitting(false);
     if (error) {
       setError(error.message ?? "Could not create agent");

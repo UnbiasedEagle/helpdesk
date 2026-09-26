@@ -1,6 +1,13 @@
 import { createAccessControl } from "better-auth/plugins/access";
 import { defaultStatements } from "better-auth/plugins/admin/access";
 
+// Enum-like const (the client's tsconfig uses erasableSyntaxOnly, which disallows `enum`).
+export const Role = {
+  Admin: "admin",
+  Agent: "agent",
+} as const;
+export type Role = (typeof Role)[keyof typeof Role];
+
 // Keep in sync with server/src/lib/permissions.ts
 export const statement = {
   ...defaultStatements,
@@ -18,4 +25,4 @@ export const agentRole = ac.newRole({
   session: [],
 });
 
-export const roles = { admin: adminRole, agent: agentRole };
+export const roles = { [Role.Admin]: adminRole, [Role.Agent]: agentRole };
