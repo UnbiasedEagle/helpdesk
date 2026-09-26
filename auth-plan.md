@@ -4,7 +4,7 @@
 - [x] Install `better-auth@1.7.6` and add env vars (`BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `CLIENT_ORIGIN`)
 - [x] Create `auth.ts`: Prisma adapter, email/password on, public sign-up off, DB sessions (no cookie cache), admin plugin with `admin`/`agent` roles
 - [x] Remove old `User` model/table and `Role` enum, generate Better Auth schema, run Prisma migration
-- [ ] Mount `/api/auth/*splat` handler in Express (before `express.json()`)
+- [x] Mount `/api/auth/*splat` handler in Express (before `express.json()`)
 - [ ] Add `requireAuth` / `requireAdmin` middleware and `GET /api/me`
 - [ ] Seed script for initial admin account
 - [ ] Client: auth client, login page, protected/admin routes, logout
