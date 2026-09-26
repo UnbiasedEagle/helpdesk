@@ -131,7 +131,16 @@ export function AdminUsersPage() {
   function resetPassword(user: ManagedUser) {
     const newPassword = window.prompt(`New password for ${user.email} (min 8 characters):`);
     if (!newPassword) return;
-    return runAction(user.id, () => authClient.admin.setUserPassword({ userId: user.id, newPassword }));
+    if (newPassword.length < 8) {
+      setError("Password must be at least 8 characters");
+      return;
+    }
+    return runAction(user.id, async () => {
+      const result = await authClient.admin.setUserPassword({ userId: user.id, newPassword });
+      if (result.error) return result;
+      // Sign the user out everywhere so the old password's sessions don't linger.
+      return authClient.admin.revokeUserSessions({ userId: user.id });
+    });
   }
 
   return (

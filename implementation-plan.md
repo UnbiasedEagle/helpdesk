@@ -18,15 +18,17 @@ Two decisions from `tech-stack.md` are still open and block specific tasks below
 
 ## Phase 1 — Auth & User Management
 
-- [ ] Prisma schema: `User` (id, email, passwordHash, role, createdAt)
-- [ ] express-session + connect-pg-simple setup (Postgres-backed sessions)
-- [ ] bcrypt password hashing
-- [ ] Auth endpoints: login, logout, current-user (`/api/auth/*`)
-- [ ] Auth middleware: `requireAuth`, `requireAdmin`
-- [ ] Seed script: create initial admin account
-- [ ] Admin endpoints: create agent, list agents, deactivate agent
-- [ ] Frontend: login page, auth context/hook, protected route wrapper
-- [ ] Frontend: admin user-management page (create/list agents)
+Implemented with Better Auth instead of express-session + bcrypt. Details in `auth-plan.md`.
+
+- [x] Prisma schema: Better Auth `User`, `Session`, `Account`, `Verification`, `RateLimit` (+ admin plugin fields)
+- [x] Postgres-backed sessions (Better Auth, no cookie cache)
+- [x] Password hashing (Better Auth, scrypt)
+- [x] Auth endpoints: login, logout, current-user (`/api/auth/*`, `/api/me`)
+- [x] Auth middleware: `requireAuth`, `requireAdmin`
+- [x] Seed script: create initial admin account
+- [x] Admin endpoints: create agent, list agents, deactivate agent (Better Auth admin plugin)
+- [x] Frontend: login page, auth hook, protected route wrapper
+- [x] Frontend: admin user-management page (create/list/deactivate agents, reset password)
 
 ## Phase 2 — Ticket Data Model & Core CRUD
 

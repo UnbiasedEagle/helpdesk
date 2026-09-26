@@ -9,5 +9,5 @@
 - [x] Seed script for initial admin account
 - [x] Client: auth client, login page, protected/admin routes, logout
 - [x] Client: admin page to create, list, and deactivate agents
-- [ ] Verify: login/logout, sign-up blocked, agent gets 403 on admin routes, banned agent's session revoked immediately
-- [ ] Update `CLAUDE.md` and `implementation-plan.md`
+- [ ] Verify (manual, by user): login/logout, sign-up blocked, agent gets 403 on admin routes, banned agent's session revoked immediately
+- [x] Update `CLAUDE.md` and `implementation-plan.md`

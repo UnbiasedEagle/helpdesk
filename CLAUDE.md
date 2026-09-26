@@ -17,7 +17,7 @@ Use context7 (`resolve-library-id` then `query-docs`) to fetch current documenta
 
 - **Client**: React + TypeScript + Tailwind CSS v4 + React Router v7, built with Vite
 - **Server**: Express 5 + TypeScript + Prisma 7 + PostgreSQL
-- **Auth**: express-session + connect-pg-simple (Postgres-backed sessions), bcrypt password hashing
+- **Auth**: Better Auth (`better-auth@1.7.6`, pinned) with email/password and Postgres-backed sessions via the Prisma adapter. Admin plugin provides `admin`/`agent` roles. Public sign-up is disabled; admins create agents. See `auth-plan.md`.
 - **AI**: Google Gemini API (free tier)
 - **Local dev**: Docker Compose (`postgres`, `server`, `client` services)
 
@@ -27,6 +27,12 @@ Use context7 (`resolve-library-id` then `query-docs`) to fetch current documenta
 - TypeScript `7.0.2` (the native Go-based compiler) is installed and is genuinely the stable release, but `ts-node` / `ts-node-dev` aren't compatible with it yet. The server's dev script uses `tsx` instead.
 - Prisma's config file in this version is `server/prisma7.config.ts` (not `prisma.config.ts`).
 - Install npm dependencies with `--legacy-peer-deps` in this environment — plain `npm install` has hit an npm/arborist resolver bug here.
+- The server is ESM (`"type": "module"`). Relative imports need `.js` extensions (e.g. `./lib/auth.js`). Better Auth does not support CommonJS.
+- Better Auth config: `server/src/lib/auth.ts`. Role permissions live in `server/src/lib/permissions.ts` and are duplicated in `client/src/lib/permissions.ts`; keep them in sync.
+- The Better Auth handler is mounted at `/api/auth/*splat` **before** `express.json()`. Protect app routes with `requireAuth` / `requireAdmin` from `server/src/middleware/auth.ts` (they set `req.user` / `req.session`).
+- No session cookie cache: every request hits the `session` table, so sign-out and deactivation (`banUser`) take effect immediately.
+- After changing Better Auth config or plugins, regenerate the schema: `npx auth@1.7.6 generate --config src/lib/auth.ts --output prisma/schema.prisma`, then `npx prisma migrate dev`.
+- Better Auth rate-limits sign-in to 3 attempts per 10s per IP. The server passes Express's resolved `req.ip` to Better Auth via `X-Forwarded-For`; the Vite proxy sets `xfwd: true`.
 - Non-Docker local Postgres (Homebrew) runs on port `5432`. The Dockerized Postgres runs on host port `5433` to avoid colliding with it.
 - TypeScript 7 removed `moduleResolution: "node"` (errors as `TS5108`, "node10 has been removed"). Server `tsconfig.json` uses `"module": "nodenext"` + `"moduleResolution": "nodenext"` instead.
 - Prisma 7's generated client (`provider = "prisma-client"`) requires an explicit driver adapter — plain `new PrismaClient()` fails. Import `PrismaClient` from `./generated/prisma/client` (not the bare directory) and construct it with `new PrismaClient({ adapter })`, where `adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL })` from `@prisma/adapter-pg`. See `server/src/prisma.ts`.
@@ -39,4 +45,5 @@ Use context7 (`resolve-library-id` then `query-docs`) to fetch current documenta
 - `cd server && npm run dev` — server only (`tsx watch`)
 - `cd client && npm run dev` — client only (`vite`)
 - `cd server && npx prisma migrate dev` — create and apply a migration
+- `cd server && npm run db:seed` — create the initial admin from `SEED_ADMIN_*` env vars (idempotent)
 - `cd server && npx prisma studio` — browse the database

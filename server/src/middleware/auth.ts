@@ -3,9 +3,15 @@ import { fromNodeHeaders } from "better-auth/node";
 import { auth } from "../lib/auth.js";
 
 export async function requireAuth(req: Request, res: Response, next: NextFunction) {
-  const session = await auth.api.getSession({
-    headers: fromNodeHeaders(req.headers),
-  });
+  let session;
+  try {
+    session = await auth.api.getSession({
+      headers: fromNodeHeaders(req.headers),
+    });
+  } catch (err) {
+    next(err);
+    return;
+  }
 
   if (!session) {
     res.status(401).json({ error: "Unauthorized" });
@@ -18,7 +24,11 @@ export async function requireAuth(req: Request, res: Response, next: NextFunctio
 }
 
 export async function requireAdmin(req: Request, res: Response, next: NextFunction) {
-  await requireAuth(req, res, () => {
+  await requireAuth(req, res, (err?: unknown) => {
+    if (err) {
+      next(err);
+      return;
+    }
     if (req.user?.role !== "admin") {
       res.status(403).json({ error: "Forbidden" });
       return;

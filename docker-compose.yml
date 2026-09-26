@@ -19,7 +19,7 @@ services:
   server:
     build: ./server
     restart: unless-stopped
-    command: sh -c "npx prisma migrate deploy && npx prisma db seed && npm run dev"
+    command: sh -c "npx prisma generate && npx prisma migrate deploy && npx prisma db seed && npm run dev"
     environment:
       DATABASE_URL: postgresql://helpdesk:helpdesk@postgres:5432/helpdesk_dev?schema=public
       PORT: 4000
