@@ -5,7 +5,7 @@
 - [x] Create `auth.ts`: Prisma adapter, email/password on, public sign-up off, DB sessions (no cookie cache), admin plugin with `admin`/`agent` roles
 - [x] Remove old `User` model/table and `Role` enum, generate Better Auth schema, run Prisma migration
 - [x] Mount `/api/auth/*splat` handler in Express (before `express.json()`)
-- [ ] Add `requireAuth` / `requireAdmin` middleware and `GET /api/me`
+- [x] Add `requireAuth` / `requireAdmin` middleware and `GET /api/me`
 - [ ] Seed script for initial admin account
 - [ ] Client: auth client, login page, protected/admin routes, logout
 - [ ] Client: admin page to create, list, and deactivate agents
