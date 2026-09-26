@@ -7,7 +7,7 @@
 - [x] Mount `/api/auth/*splat` handler in Express (before `express.json()`)
 - [x] Add `requireAuth` / `requireAdmin` middleware and `GET /api/me`
 - [x] Seed script for initial admin account
-- [ ] Client: auth client, login page, protected/admin routes, logout
+- [x] Client: auth client, login page, protected/admin routes, logout
 - [ ] Client: admin page to create, list, and deactivate agents
 - [ ] Verify: login/logout, sign-up blocked, agent gets 403 on admin routes, banned agent's session revoked immediately
 - [ ] Update `CLAUDE.md` and `implementation-plan.md`
